@@ -1,0 +1,20 @@
+{{- if eq .Values.volumeClaim.type "pvc" }}
+{{- range $index, $config := .Values.volumeClaim.claims }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $.Chart.Name }}-{{ $config.name }}
+  labels:
+    {{- include "prospectml.labels" $ | nindent 4 }}
+spec:
+  accessModes:
+    - {{ $config.accessMode }}
+  {{- if $config.storageClass }}
+  storageClassName: {{ $config.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ $config.size }}
+{{- end }}
+{{- end }}
