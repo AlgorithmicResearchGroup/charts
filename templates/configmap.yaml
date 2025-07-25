@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "prospectml.fullname" . }}
+  labels:
+    {{- include "prospectml.labels" . | nindent 4 }}
+data:
+  # General values.config data
+  {{- if .Values.config }}
+    {{- range $key, $value := .Values.config }}
+  {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
+
+  K8S_NAMESPACE: {{ .Release.Namespace | quote }}
+  STORAGE_TYPE: {{ .Values.volumeClaim.type | quote }}
+  # App's own service URL for internal API calls
+  WEB_SERVICE_URL: {{ printf "http://%s.%s.svc.cluster.local" (include "prospectml.fullname" .) .Release.Namespace | quote }}
+  APP_URL: {{ printf "http://%s.%s.svc.cluster.local" (include "prospectml.fullname" .) .Release.Namespace | quote }}
+  API_BASE_URL: {{ printf "http://%s.%s.svc.cluster.local" (include "prospectml.fullname" .) .Release.Namespace | quote }}
+  SERVICE_URL: {{ printf "http://%s.%s.svc.cluster.local" (include "prospectml.fullname" .) .Release.Namespace | quote }}
+
+  # Agent configuration
+  AGENT_MAX_CONCURRENT_RUNS: {{ .Values.agent.maxConcurrentRuns | quote }}
+  AGENT_DEFAULT_MODEL: {{ .Values.agent.defaultModel | quote }}
+  AGENT_DEFAULT_MAX_ITERATIONS: {{ .Values.agent.defaultMaxIterations | quote }}
+  AGENT_CPU_REQUEST: {{ .Values.agent.resources.requests.cpu | quote }}
+  AGENT_CPU_LIMIT: {{ .Values.agent.resources.limits.cpu | quote }}
+  AGENT_MEMORY_REQUEST: {{ .Values.agent.resources.requests.memory | quote }}
+  AGENT_MEMORY_LIMIT: {{ .Values.agent.resources.limits.memory | quote }}
+  ENABLE_AGENT_STORAGE: {{ .Values.agent.enableStorage | quote }}
+  STORAGE_PROVIDER: {{ .Values.agent.storageProvider | quote }}
+  STORAGE_BUCKET: {{ .Values.agent.storageBucket | quote }}
+
+  # Flask configuration
+  FLASK_ENV: {{ .Values.flask.env | quote }}
+  SECRET_KEY: {{ .Values.flask.secretKey | quote }}
+  # Logging configuration
+  LOG_LEVEL: {{ .Values.logging.level | quote }}
+
+  # License Configuration
+  {{- if .Values.license.key }}
+  LICENSE_KEY: {{ .Values.license.key | quote }}
+  {{- end }}
+  {{- if .Values.license.keygenAccountId }}
+  KEYGEN_ACCOUNT_ID: {{ .Values.license.keygenAccountId | quote }}
+  {{- end }}
+  {{- if .Values.license.keygenProductToken }}
+  KEYGEN_PRODUCT_TOKEN: {{ .Values.license.keygenProductToken | quote }}
+  {{- end }}
+  {{- if .Values.license.fingerprint }}
+  FINGERPRINT: {{ .Values.license.fingerprint | quote }}
+  {{- end }}
+
+  # Database Configuration
+  {{- if .Values.database.external.url }}
+  DATABASE_URL: {{ .Values.database.external.url | quote }}
+  {{- end }}
+  {{- if .Values.postgresql.enabled }}
+  POSTGRES_USER: {{ .Values.postgresql.auth.username | quote }}
+  {{- else }}
+  POSTGRES_USER: {{ .Values.database.external.username | quote }}
+  {{- end }}
+  {{- if .Values.postgresql.enabled }}
+  POSTGRES_HOST: {{ printf "%s-%s.%s.svc.cluster.local" .Release.Name "postgresql" .Release.Namespace | quote }}
+  {{- else }}
+  POSTGRES_HOST: {{ .Values.database.external.host | quote }}
+  {{- end }}
+  {{- if .Values.postgresql.enabled }}
+  POSTGRES_PORT: {{ .Values.postgresql.primary.service.port | default 5432 | quote }}
+  {{- else }}
+  POSTGRES_PORT: {{ .Values.database.external.port | quote }}
+  {{- end }}
+  {{- if .Values.postgresql.enabled }}
+  POSTGRES_DB: {{ .Values.postgresql.auth.database | quote }}
+  {{- else }}
+  POSTGRES_DB: {{ .Values.database.external.database | quote }}
+  {{- end }}
