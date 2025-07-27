@@ -1,10 +1,6 @@
 {
   "branches": [
-    "main",
-    {
-      "name": "create_helm_artifact",
-      "prerelease": "test"
-    }
+    "main"
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -12,7 +8,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "./.github/scripts/update-chart-version.sh ${nextRelease.version}"
+        "prepareCmd": "./.github/scripts/update-chart-version.sh ${nextRelease.version} && echo ${nextRelease.version} > .version"
       }
     ],
     [
