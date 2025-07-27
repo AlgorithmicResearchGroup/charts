@@ -1,0 +1,117 @@
+name: Release Helm Chart
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+
+jobs:
+  release:
+    name: Release Chart
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          npm install -g semantic-release @semantic-release/exec @semantic-release/git @semantic-release/github
+          sudo snap install yq  # or brew install yq / pip install yq if snap isn't available
+
+      - name: Run Semantic Release
+        id: semantic_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release || echo "No release"
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.0
+
+      - name: Generate Helm Docs
+        run: |
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v "$(pwd)":/helm-docs \
+            -w /helm-docs \
+            docker.io/dockeralexh/readme-generator-for-helm \
+            --readme README.md \
+            --values values.yaml
+
+      - name: Commit README.md changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add README.md
+          git commit -m "chore(documentation): Update README.md via helm-docs" || echo "No changes to commit"
+          git push origin HEAD
+
+      - name: Package Helm chart
+        run: |
+          if [[ "$BRANCH" == "main" ]]; then
+            echo "using semantic release version"
+          else
+            COMMIT_SHA=$(git rev-parse --short HEAD)
+            echo "Non-main branch detected. Using commit SHA as version: $COMMIT_SHA"
+            ./.github/scripts/update-chart-version.sh "0.0.0-${COMMIT_SHA}"
+          fi
+          mkdir -p .cr-release-packages
+          helm dependency update .
+          helm package . -d .cr-release-packages
+
+      - name: Push to gh-pages
+        run: |
+          CHART_REPO_DIR=./
+          if [[ "$BRANCH" == "main" ]]; then
+            DEST_DIR="$CHART_REPO_DIR"
+          else
+            DEST_DIR="$CHART_REPO_DIR/pre"
+          fi
+          CHART_DIR=.cr-release-packages
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin gh-pages
+          git checkout gh-pages || git checkout --orphan gh-pages
+          git pull origin gh-pages 
+
+          mkdir -p "$CHART_REPO_DIR"
+
+          BRANCH="${GITHUB_REF##*/}"
+
+          if [[ "$BRANCH" == "main" ]]; then
+            DEST_DIR="$CHART_REPO_DIR"
+            REPO_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}"
+          else
+            DEST_DIR="$CHART_REPO_DIR/pre"
+            REPO_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/pre"
+          fi
+
+          mkdir -p "$DEST_DIR"
+          for tgz in $CHART_DIR/*.tgz; do
+            filename=$(basename "$tgz")
+            if [[ ! -f "$DEST_DIR/$filename" ]]; then
+              cp "$tgz" "$DEST_DIR/"
+            else
+              echo "Chart package $filename already exists. Skipping to preserve immutability."
+            fi
+          done
+
+          helm repo index "$DEST_DIR" --url "$REPO_URL" --merge "$DEST_DIR/index.yaml"
+
+          git add "$DEST_DIR"
+          git commit -m "Publish Helm chart from $BRANCH $(date)" || echo "No changes to commit"
+          git push origin gh-pages

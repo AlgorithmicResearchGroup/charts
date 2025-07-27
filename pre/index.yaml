@@ -1,0 +1,124 @@
+apiVersion: v1
+entries:
+  prospectml:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-27T20:50:25.420518477Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: a3555145b6c9a74929ba050760ecb5b1789b18a648faf46dd7784ada645d8cb5
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-27T20:50:25.409770544Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: 3ef77db3b278f1f8f8efe0ee3e96ad08f0cc87a615183c3152efac1684d3722b
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.2-test.3.tgz
+    version: 0.0.2-test.3
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-27T20:50:25.39828128Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: 00f0ea986c5e2c53510885459ced5aba15d6c649bd3477b8f06d2dc7dba0d464
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.2-test.2.tgz
+    version: 0.0.2-test.2
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-27T20:50:25.387107262Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: 54377fdbbffabed2be87b541d4f5e9f12dba7d61c511f4c7c8c154a4b31fa0e0
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.0-0c3715b.tgz
+    version: 0.0.0-0c3715b
+generated: "2025-07-27T20:50:25.376164405Z"
