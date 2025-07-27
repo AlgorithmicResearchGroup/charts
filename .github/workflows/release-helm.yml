@@ -73,7 +73,7 @@ jobs:
 
           git fetch origin gh-pages
           git checkout gh-pages || git checkout --orphan gh-pages
-          git pull origin gh-pages
+          git pull origin gh-pages 
 
           mkdir -p "$CHART_REPO_DIR"
 
@@ -88,7 +88,14 @@ jobs:
           fi
 
           mkdir -p "$DEST_DIR"
-          cp $CHART_DIR/*.tgz "$DEST_DIR"
+          for tgz in $CHART_DIR/*.tgz; do
+            filename=$(basename "$tgz")
+            if [[ ! -f "$DEST_DIR/$filename" ]]; then
+              cp "$tgz" "$DEST_DIR/"
+            else
+              echo "Chart package $filename already exists. Skipping to preserve immutability."
+            fi
+          done
 
           helm repo index "$DEST_DIR" --url "$REPO_URL"
 
