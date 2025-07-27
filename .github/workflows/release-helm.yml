@@ -1,0 +1,61 @@
+name: Release Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Semantic Release + Publish Chart
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for semantic-release to analyze history
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install semantic-release and deps
+        run: |
+          npm install -g semantic-release @semantic-release/exec @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+
+      - name: Install helm and helm-docs
+        run: |
+          curl -sSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          curl -sSL https://github.com/norwoodj/helm-docs/releases/latest/download/helm-docs_Linux_x86_64.tar.gz | tar -xz -C /usr/local/bin helm-docs
+
+      - name: Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release
+
+      - name: Package chart
+        run: |
+          helm dependency build .
+          helm package . --destination ./chart-packages
+
+      - name: Deploy to gh-pages
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          CHART_DIR=chart-packages
+          CHART_REPO_DIR=gh-pages-temp
+
+          # Clone the gh-pages branch
+          git clone --depth=1 --branch=gh-pages https://github.com/${{ github.repository }} $CHART_REPO_DIR
+
+          cp $CHART_DIR/*.tgz $CHART_REPO_DIR
+
+          cd $CHART_REPO_DIR
+          helm repo index . --url https://$GITHUB_REPOSITORY_OWNER.github.io/${{ github.event.repository.name }}
+
+          git add .
+          git commit -m "Publish Helm chart $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          git push origin gh-pages
