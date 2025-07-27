@@ -16,7 +16,7 @@ This Helm chart deploys ProspectML - an AI-powered coding agent with web interfa
 ```console
 helm repo add prospectml https://algorithmicresearchgroup.github.io/charts/
 helm repo update
-helm upgrade localdev prospectml/prospectml --create-namespace --install --namespace <your-namespace> --values ./values.yaml
+helm upgrade prospectml prospectml/prospectml --create-namespace --install --namespace <your-namespace> --values ./values.yaml
 ```
 
 ### Install from local directory
