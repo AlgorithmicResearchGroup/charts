@@ -60,7 +60,7 @@ jobs:
 
       - name: Package Helm chart
         run: |
-          if [[ "$BRANCH" == "main" ]]; then
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
             echo "using semantic release version"
           else
             COMMIT_SHA=$(git rev-parse --short HEAD)
@@ -74,7 +74,7 @@ jobs:
       - name: Push to gh-pages
         run: |
           CHART_REPO_DIR=./
-          if [[ "$BRANCH" == "main" ]]; then
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
             DEST_DIR="$CHART_REPO_DIR"
           else
             DEST_DIR="$CHART_REPO_DIR/pre"
@@ -92,7 +92,7 @@ jobs:
 
           BRANCH="${GITHUB_REF##*/}"
 
-          if [[ "$BRANCH" == "main" ]]; then
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
             DEST_DIR="$CHART_REPO_DIR"
             REPO_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}"
           else
@@ -113,5 +113,5 @@ jobs:
           helm repo index "$DEST_DIR" --url "$REPO_URL" --merge "$DEST_DIR/index.yaml"
 
           git add "$DEST_DIR"
-          git commit -m "Publish Helm chart from $BRANCH $(date)" || echo "No changes to commit"
+          git commit -m "Publish Helm chart from ${{ github.ref_name }} $(date)" || echo "No changes to commit"
           git push origin gh-pages
