@@ -73,6 +73,7 @@ jobs:
 
       - name: Push to gh-pages
         run: |
+          CHART_REPO_DIR=./
           if [[ "$BRANCH" == "main" ]]; then
             DEST_DIR="$CHART_REPO_DIR"
           else
