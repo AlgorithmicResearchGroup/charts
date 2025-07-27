@@ -42,9 +42,10 @@ jobs:
         run: |
           docker run --rm \
             -v "$(pwd)":/helm-docs \
+            -w /helm-docs \
             docker.io/dockeralexh/readme-generator-for-helm \
-            --readme /helm-docs/README.md \
-            --values /helm-docs/values.yaml
+            --readme README.md \
+            --values values.yaml
 
       - name: Commit README.md changes
         run: |
