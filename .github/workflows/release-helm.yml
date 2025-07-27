@@ -47,7 +47,7 @@ jobs:
 
       - name: Push to gh-pages
         run: |
-          CHART_REPO_DIR=chart-repo
+          CHART_REPO_DIR=./
           CHART_DIR=.cr-release-packages
 
           git config user.name "github-actions[bot]"
