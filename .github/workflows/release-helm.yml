@@ -61,7 +61,6 @@ jobs:
       - name: Check for release
         id: check_release
         run: |
-          # Suppose your prepare script writes version to .version file
           if [ -f .version ]; then
             echo "version=$(cat .version)" >> $GITHUB_OUTPUT
           else
