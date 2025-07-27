@@ -65,7 +65,7 @@ jobs:
           else
             COMMIT_SHA=$(git rev-parse --short HEAD)
             echo "Non-main branch detected. Using commit SHA as version: $COMMIT_SHA"
-            ./.github/scripts/update-chart-version.sh $COMMIT_SHA
+            ./.github/scripts/update-chart-version.sh "0.0.0-${COMMIT_SHA}"
           fi
           mkdir -p .cr-release-packages
           helm dependency update .
