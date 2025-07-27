@@ -29,9 +29,10 @@ jobs:
           sudo snap install yq  # or brew install yq / pip install yq if snap isn't available
 
       - name: Run Semantic Release
+        id: semantic_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release
+        run: semantic-release || echo "No release"
 
       - name: Set up Helm
         uses: azure/setup-helm@v4
@@ -57,15 +58,31 @@ jobs:
           git commit -m "chore(documentation): Update README.md via helm-docs" || echo "No changes to commit"
           git push origin HEAD
 
+      - name: Check for release
+        id: check_release
+        run: |
+          # Suppose your prepare script writes version to .version file
+          if [ -f .version ]; then
+            echo "version=$(cat .version)" >> $GITHUB_OUTPUT
+          else
+            echo "version=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Package Helm chart
+        if: steps.check_release.outputs.version != ''
         run: |
           mkdir -p .cr-release-packages
           helm dependency update .
           helm package . -d .cr-release-packages
 
       - name: Push to gh-pages
+        if: steps.check_release.outputs.version != ''
         run: |
-          CHART_REPO_DIR=./
+          if [[ "$BRANCH" == "main" ]]; then
+            DEST_DIR="$CHART_REPO_DIR"
+          else
+            DEST_DIR="$CHART_REPO_DIR/pre"
+          fi
           CHART_DIR=.cr-release-packages
 
           git config user.name "github-actions[bot]"
@@ -97,7 +114,7 @@ jobs:
             fi
           done
 
-          helm repo index "$DEST_DIR" --url "$REPO_URL"
+          helm repo index "$DEST_DIR" --url "$REPO_URL" --merge "$DEST_DIR/index.yaml"
 
           git add "$DEST_DIR"
           git commit -m "Publish Helm chart from $BRANCH $(date)" || echo "No changes to commit"
