@@ -44,7 +44,7 @@ jobs:
             -v "$(pwd)":/helm-docs \
             docker.io/dockeralexh/readme-generator-for-helm \
             --readme /helm-docs/README.md \
-            --values
+            --values/helm-docs/values.yaml
 
       - name: Commit README.md changes
         run: |
