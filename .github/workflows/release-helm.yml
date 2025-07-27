@@ -41,6 +41,7 @@ jobs:
       - name: Generate Helm Docs
         run: |
           docker run --rm \
+            -u "$(id -u):$(id -g)" \
             -v "$(pwd)":/helm-docs \
             -w /helm-docs \
             docker.io/dockeralexh/readme-generator-for-helm \
