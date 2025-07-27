@@ -2,7 +2,7 @@ apiVersion: v2
 name: prospectml
 description: A Helm chart for ProspectML - AI-powered coding agent
 type: application
-version: 0.0.2
+version: 0.0.0-f603a3b
 appVersion: "1.0.0"
 keywords:
   - ai
