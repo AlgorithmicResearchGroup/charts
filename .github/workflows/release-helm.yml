@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -60,24 +58,20 @@ jobs:
           git commit -m "chore(documentation): Update README.md via helm-docs" || echo "No changes to commit"
           git push origin HEAD
 
-      - name: Check for release
-        id: check_release
-        run: |
-          if [ -f .version ]; then
-            echo "version=$(cat .version)" >> $GITHUB_OUTPUT
-          else
-            echo "version=" >> $GITHUB_OUTPUT
-          fi
-
       - name: Package Helm chart
-        if: steps.check_release.outputs.version != ''
         run: |
+          if [[ "$BRANCH" == "main" ]]; then
+            echo "using semantic release version"
+          else
+            COMMIT_SHA=$(git rev-parse --short HEAD)
+            echo "Non-main branch detected. Using commit SHA as version: $COMMIT_SHA"
+            ./.github/scripts/update-chart-version.sh $COMMIT_SHA
+          fi
           mkdir -p .cr-release-packages
           helm dependency update .
           helm package . -d .cr-release-packages
 
       - name: Push to gh-pages
-        if: steps.check_release.outputs.version != ''
         run: |
           if [[ "$BRANCH" == "main" ]]; then
             DEST_DIR="$CHART_REPO_DIR"
