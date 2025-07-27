@@ -2,7 +2,7 @@
   "branches": [
     "main",
     {
-      "name": "create_helm_artifact",
+      "name": "/.*/",
       "prerelease": "test"
     }
   ],
