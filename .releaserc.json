@@ -3,7 +3,7 @@
     "main",
     {
       "name": "create_helm_artifact",
-      "prerelease": true
+      "prerelease": "test"
     }
   ],
   "plugins": [
