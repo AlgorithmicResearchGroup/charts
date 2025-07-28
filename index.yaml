@@ -16,7 +16,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 2025.6.13
-    created: "2025-07-27T20:53:12.851321402Z"
+    created: "2025-07-28T01:13:45.861903508Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -57,7 +57,7 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 16.0.0
-    created: "2025-07-27T20:53:12.854748459Z"
+    created: "2025-07-28T01:13:45.866089149Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -89,7 +89,7 @@ entries:
   prospectml:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-07-27T20:53:12.898146548Z"
+    created: "2025-07-28T01:13:45.836337975Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -100,7 +100,7 @@ entries:
       repository: oci://registry-1.docker.io/bitnamicharts
       version: 17.0.11
     description: A Helm chart for ProspectML - AI-powered coding agent
-    digest: a3555145b6c9a74929ba050760ecb5b1789b18a648faf46dd7784ada645d8cb5
+    digest: db37d38b90b33844fd3c3ed13b93e51f9f1e6e5c2a9e2a6222bc73a8e0a1ea85
     home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
     keywords:
     - ai
@@ -115,11 +115,41 @@ entries:
     - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
     type: application
     urls:
-    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.2.tgz
-    version: 0.0.2
+    - https://AlgorithmicResearchGroup.github.io/charts/prospectml-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-07-27T20:53:12.802888031Z"
+    created: "2025-07-28T01:13:45.858230354Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: db37d38b90b33844fd3c3ed13b93e51f9f1e6e5c2a9e2a6222bc73a8e0a1ea85
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/.cr-release-packages/prospectml-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-28T01:13:45.825023805Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -149,7 +179,7 @@ entries:
     version: 0.0.2
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-07-27T20:53:12.847000357Z"
+    created: "2025-07-28T01:13:45.847707861Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -177,3 +207,124 @@ entries:
     urls:
     - https://AlgorithmicResearchGroup.github.io/charts/.cr-release-packages/prospectml-0.0.2.tgz
     version: 0.0.2
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-28T01:13:45.909504357Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: a3555145b6c9a74929ba050760ecb5b1789b18a648faf46dd7784ada645d8cb5
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-28T01:13:45.898241934Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: 3ef77db3b278f1f8f8efe0ee3e96ad08f0cc87a615183c3152efac1684d3722b
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.2-test.3.tgz
+    version: 0.0.2-test.3
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-28T01:13:45.887637356Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: 00f0ea986c5e2c53510885459ced5aba15d6c649bd3477b8f06d2dc7dba0d464
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.2-test.2.tgz
+    version: 0.0.2-test.2
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-28T01:13:45.876889982Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 17.0.11
+    description: A Helm chart for ProspectML - AI-powered coding agent
+    digest: 54377fdbbffabed2be87b541d4f5e9f12dba7d61c511f4c7c8c154a4b31fa0e0
+    home: https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    keywords:
+    - ai
+    - machine-learning
+    - coding-agent
+    - flask
+    maintainers:
+    - email: info@algorithmicresearchgroup.com
+      name: ProspectML Team
+    name: prospectml
+    sources:
+    - https://github.com/AlgorithmicResearchGroup/Coding-Agent-For-Deployment
+    type: application
+    urls:
+    - https://AlgorithmicResearchGroup.github.io/charts/pre/prospectml-0.0.0-0c3715b.tgz
+    version: 0.0.0-0c3715b
+generated: "2025-07-28T01:13:45.814108606Z"
