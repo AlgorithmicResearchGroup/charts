@@ -1,0 +1,39 @@
+name: Generate Helm Docs
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+
+jobs:
+  helm-docs:
+    name: Generate Helm Docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.0
+
+      - name: Generate Helm Docs
+        run: |
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v "$(pwd)":/helm-docs \
+            -w /helm-docs \
+            docker.io/dockeralexh/readme-generator-for-helm \
+            --readme README.md \
+            --values values.yaml
+
+      - name: Commit README.md changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add README.md
+          git commit -m "chore(documentation): Update README.md via helm-docs" || echo "No changes to commit"
+          git push origin HEAD
